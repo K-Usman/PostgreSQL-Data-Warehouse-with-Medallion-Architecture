@@ -1,10 +1,10 @@
 # PostgreSQL-Data-Warehouse-with-Medallion-Architecture
 Building a Data Warehouse on PostgreSQL with ETL process and Data Modelling.
 
-Welcome to the repository!
+## Welcome to the repository!
 This project demonstrates a modern data warehousing and ETL solution, from building a data warehouse using Star Schema to generating Power BI reports.
 
-Objectives and Project Requirements
+### Objectives and Project Requirements
 Develop a modern data warehouse on PostgreSQL to consolidate data from different sources and create aggregations for analytics.
 
 #### Specifications:
