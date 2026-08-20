@@ -1,3 +1,11 @@
+/*
+==============================================================================================
+CREATE TABLES FOR BRONZE LAYER
+==============================================================================================
+Purpose: This script create table definitions in bronze schema. These tables are used as staging for raw data load.
+*/
+
+
 DROP TABLE IF EXISTS bronze.crm_cust_info;
 CREATE TABLE bronze.crm_cust_info(
 	cst_id INT,
