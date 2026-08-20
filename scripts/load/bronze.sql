@@ -1,3 +1,15 @@
+/*
+==========================================================================================================
+STORED PROCEDURE
+==========================================================================================================
+Purpose: This script creates a stored procure load_bronze for loading raw source data from csv to our tables in bronze schema.
+Use: CALL load_bronze();
+NOTES:
+	- COPY command runs on the server side.Therefore csv files must be accessible to Postgres server and has to be placed in the directory.
+	- I had to write table attribute names in each insert. Because I am adding a metadata column _load_date to every table and COPY command maps 
+   CSV columns by positional order to every column in the table.
+*/
+
 DROP PROCEDURE IF EXISTS load_bronze();
 CREATE PROCEDURE load_bronze()
 LANGUAGE plpgsql
