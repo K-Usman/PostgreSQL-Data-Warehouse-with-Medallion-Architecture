@@ -78,7 +78,7 @@ BEGIN
 		CREATE TEMP TABLE stg_product ON COMMIT DROP AS
 		SELECT DISTINCT ON (prd_id) prd_id,
 		prd_key,
-		SUBSTRING(prd_key FROM 1 FOR 5) as product_category,
+		REPLACE(TRIM(SUBSTRING(prd_key FROM 1 FOR 5)), '-', '_') AS product_category,
 		SUBSTRING(prd_key FROM 7) as product_sales_key,
 		prd_nm,
 		COALESCE(prd_cost,0) as prd_cost,
@@ -234,7 +234,7 @@ BEGIN
 		RAISE NOTICE 'Started transforming category data..';
 		CREATE TEMP TABLE stg_category ON COMMIT DROP AS
 		SELECT 
-		id,
+		TRIM(id) as id,
 		cat,
 		subcat,
 		maintenance,
