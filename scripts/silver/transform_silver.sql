@@ -58,11 +58,11 @@ BEGIN
 		RAISE NOTICE 'Inserting transformed customer data into silver layer';
 		INSERT INTO silver.customer (
 		    customer_id, customer_key, first_name, last_name, 
-		    marital_status, gender, valid_from,source_load_date
+		    marital_status, gender,source_load_date
 		)
 		SELECT 
 		    stg.cst_id, stg.cst_key, stg.cst_firstname, stg.cst_lastname, 
-		    stg.cst_marital_status, stg.cst_gndr,stg._load_date,stg._load_date
+		    stg.cst_marital_status, stg.cst_gndr,stg._load_date
 		FROM stg_customer stg
 		LEFT JOIN silver.customer t
 		  ON stg.cst_id = t.customer_id
@@ -218,8 +218,8 @@ BEGIN
 		WHERE cl.customer_id=stg.cid and cl.is_current=TRUE
 		AND   cl.country IS DISTINCT FROM stg.cntry;
 		
-		INSERT INTO silver.customer_location (customer_id,country,valid_from,source_load_date)
-		SELECT stg.cid,stg.cntry,stg._load_date,stg._load_date
+		INSERT INTO silver.customer_location (customer_id,country,source_load_date)
+		SELECT stg.cid,stg.cntry,stg._load_date
 		FROM stg_cust_location stg
 		LEFT JOIN silver.customer_location cl
 			ON cl.customer_id=stg.cid and cl.is_current=TRUE

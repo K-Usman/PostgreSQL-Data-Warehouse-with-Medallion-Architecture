@@ -20,7 +20,7 @@ CREATE TABLE silver.customer(
 	last_name TEXT,
 	marital_status TEXT,
 	gender TEXT,
-	valid_from DATE NOT NULL,
+	valid_from DATE NOT NULL DEFAULT '1900-01-01',
 	valid_to DATE NOT NULL DEFAULT '9999-12-31',
 	is_current BOOLEAN NOT NULL DEFAULT TRUE,
 	source_load_date DATE NOT NULL
@@ -78,7 +78,7 @@ CREATE TABLE silver.customer_location(
 	customer_sk BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 	customer_id INT NOT NULL,
 	country TEXT,
-	valid_from DATE NOT NULL,
+	valid_from DATE NOT NULL DEFAULT '1900-01-01',
 	valid_to DATE NOT NULL DEFAULT '9999-12-31',
 	is_current BOOLEAN NOT NULL DEFAULT TRUE,
 	source_load_date DATE NOT NULL
@@ -94,7 +94,6 @@ CREATE TABLE silver.category(
 	maintenance_required TEXT,
 	source_load_date DATE NOT NULL
 );
-
 
 
 
