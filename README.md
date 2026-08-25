@@ -9,7 +9,7 @@ Develop a modern data warehouse on PostgreSQL to consolidate data from different
 
 ### Data Architecture
 This project is implemented on Medallion Architecture with Bronze, Silver and Gold layers.
-![Data Architecture](PostgreSQL-Data-Warehouse-with-Medallion-Architecture\docs\Architecture.png)
+![Data Architecture](docs/Architecture.png)
 
 #### Specifications:
 - **Data Sources:** Import source data from two source systems (ERP and CRM) as CSV files.
