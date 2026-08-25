@@ -23,4 +23,3 @@ This project is implemented on Medallion Architecture with Bronze, Silver and Go
 #### Following report was create using Power BI:
 ![BI Report](docs/report.png)
 
-Aggregate data to enable these insights and make downstream reporting user-friendly.
