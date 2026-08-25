@@ -90,7 +90,8 @@ BEGIN
 			 END AS product_line,
 		_load_date
 		FROM bronze.crm_prd_info
-		where prd_end_dt is null;
+		where prd_end_dt is null
+		ORDER BY prd_id, _load_date DESC;
 		
 		-- Inserting transformed products data into silver layer
 		RAISE NOTICE 'Inserting transformed product data into silver layer';
@@ -110,7 +111,8 @@ BEGIN
 									stg.prd_cost,
 									stg.product_line,
 									stg._load_date
-		FROM stg_product stg;
+		FROM stg_product stg
+		ON CONFLICT (product_id) DO NOTHING;
 		RAISE NOTICE 'Inserted product data into silver.products';
 		RAISE NOTICE '========================================================';
 		-- Product transformations ends here
@@ -133,7 +135,8 @@ BEGIN
 		sls_quantity,
 		COALESCE(sls_price,0) as sls_price,
 		_load_date
-		FROM bronze.crm_sales_details;
+		FROM bronze.crm_sales_details
+		ORDER BY sls_ord_num, _load_date DESC;
 		
 		-- Inserting transformed sales data into silver layer
 		RAISE NOTICE 'Inserting transformed sales data into silver layer';
@@ -157,7 +160,8 @@ BEGIN
 								stg.sls_quantity,
 								stg.sls_price,
 								stg._load_date
-		FROM stg_sales stg;
+		FROM stg_sales stg
+		ON CONFLICT (sales_id) DO NOTHING;
 		RAISE NOTICE 'Inserted sales data into silver.sales';
 		RAISE NOTICE '========================================================';
 		-- Sales transformations ends here
@@ -167,7 +171,7 @@ BEGIN
 		RAISE NOTICE '========================================================';
 		RAISE NOTICE 'Started transforming customer details data..';
 		CREATE TEMP TABLE stg_cust_details ON COMMIT DROP AS
-		Select 
+		Select DISTINCT ON (SUBSTRING(cid FROM 9)::INT)
 		SUBSTRING(cid FROM 9)::INT as cid,
 		bdate,
 		CASE WHEN TRIM(gen)='F' THEN 'Female'
@@ -175,7 +179,8 @@ BEGIN
 			 ELSE NULLIF(initcap(TRIM(gen)),'')
 			 END AS gen, 
 		_load_date 
-		FROM bronze.erp_CUST_AZ12;
+		FROM bronze.erp_CUST_AZ12
+		ORDER BY SUBSTRING(cid FROM 9)::INT, _load_date DESC;
 
 		-- Insert transformed customer details data into silver layer
 		RAISE NOTICE 'Inserting transformed customer details data into silver layer';
@@ -187,7 +192,8 @@ BEGIN
 											stg.bdate,
 											stg.gen,
 											stg._load_date
-		FROM stg_cust_details stg;
+		FROM stg_cust_details stg
+		ON CONFLICT (customer_id) DO NOTHING;
 		RAISE NOTICE 'Inserted customer details data into silver.customer_details';
 		RAISE NOTICE '========================================================';
 		-- Customer details transformations ends here
@@ -233,13 +239,14 @@ BEGIN
 		RAISE NOTICE '========================================================';
 		RAISE NOTICE 'Started transforming category data..';
 		CREATE TEMP TABLE stg_category ON COMMIT DROP AS
-		SELECT 
+		SELECT DISTINCT ON (TRIM(id))
 		TRIM(id) as id,
 		cat,
 		subcat,
 		maintenance,
 		_load_date
-		FROM bronze.erp_px_cat_g1v2;
+		FROM bronze.erp_px_cat_g1v2
+		ORDER BY TRIM(id), _load_date DESC;
 		
 		-- Insert category data into silver layer
 		RAISE NOTICE 'Inserting transformed category data into silver layer';
@@ -253,7 +260,8 @@ BEGIN
 									stg.subcat,
 									stg.maintenance,
 									stg._load_date
-		FROM stg_category stg;
+		FROM stg_category stg
+		ON CONFLICT (category_id) DO NOTHING;
 		RAISE NOTICE 'Inserted category data into silver.category';
 		RAISE NOTICE '========================================================';
 		-- category data transformations ends here

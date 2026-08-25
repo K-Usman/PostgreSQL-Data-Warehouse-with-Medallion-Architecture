@@ -45,6 +45,8 @@ CREATE TABLE silver.products(
 	product_line TEXT, -- prd_line M=Mountain,R=Road,S=Sports,T=Touring
 	source_load_date DATE NOT NULL
 );
+CREATE UNIQUE INDEX idx_products
+ON silver.products(product_id);
 
 -- Sales schema
 DROP TABLE IF EXISTS silver.sales;
@@ -61,6 +63,8 @@ CREATE TABLE silver.sales(
 	price NUMERIC,
 	source_load_date DATE NOT NULL
 );
+CREATE UNIQUE INDEX idx_sales
+ON silver.sales(sales_id);
 
 -- Customer details schema
 DROP TABLE IF EXISTS silver.customer_details;
@@ -71,6 +75,8 @@ CREATE TABLE silver.customer_details(
 	gender TEXT,
 	source_load_date DATE NOT NULL
 );
+CREATE UNIQUE INDEX idx_customer_details
+ON silver.customer_details(customer_id);
 
 -- Customer location schema
 DROP TABLE IF EXISTS silver.customer_location;
@@ -83,6 +89,9 @@ CREATE TABLE silver.customer_location(
 	is_current BOOLEAN NOT NULL DEFAULT TRUE,
 	source_load_date DATE NOT NULL
 );
+CREATE UNIQUE INDEX idx_customer_location
+ON silver.customer_location(customer_id)
+where is_current is TRUE;
 
 -- Category schema
 DROP TABLE IF EXISTS silver.category;
@@ -94,6 +103,8 @@ CREATE TABLE silver.category(
 	maintenance_required TEXT,
 	source_load_date DATE NOT NULL
 );
+CREATE UNIQUE INDEX idx_category
+ON silver.category(category_id);
 
 
 
