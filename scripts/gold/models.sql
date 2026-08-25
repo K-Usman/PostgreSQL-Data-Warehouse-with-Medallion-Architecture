@@ -46,7 +46,7 @@ DROP VIEW gold.fact_sales;
 CREATE VIEW gold.fact_sales AS
 SELECT
     s.sales_id as order_number,
-    p.products_sk AS product_sk,
+    s.product_key,
     c.customer_sk AS customer_sk,
     s.order_date,
     s.ship_date,
@@ -61,4 +61,3 @@ JOIN silver.customer c
 	-- This means I need to find the version of the customer that was active during the order date.
 JOIN silver.products p 
     ON s.product_key = p.product_sales_key;
-
